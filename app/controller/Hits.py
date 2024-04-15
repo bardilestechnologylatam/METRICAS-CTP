@@ -2,13 +2,17 @@ from datetime import datetime, timedelta
 import urllib.parse
 import json
 
+def get_date(date):
+    return date.strftime('%Y-%m-%d %H:%M:%S.000')
+
+
 def get_last_hits():
     today = datetime.today()
     yesterday_2 = today - timedelta(days=1)
     init_yesterday_2 = yesterday_2.replace(hour=0, minute=0, second=0, microsecond=0)
     end_yesterday_2 = yesterday_2.replace(hour=23, minute=59, second=59, microsecond=999999)
-    init_yestedaday2_str = init_yesterday_2.strftime('%Y-%m-%d %H:%M:%S.000')
-    end_yestedaday2_str = end_yesterday_2.strftime('%Y-%m-%d %H:%M:%S.000')
+    init_yestedaday2_str = get_date(init_yesterday_2)
+    end_yestedaday2_str = get_date(end_yesterday_2)
     query_filter = {"startTimestamp": init_yestedaday2_str, "endTimestamp": end_yestedaday2_str}
     query_filter_encoded = urllib.parse.quote(str(query_filter))
     url_base = "em/usage?"
@@ -23,8 +27,8 @@ def get_hits_peer_dates(start_time, end_time):
     # Agregar un día más al objeto fecha_fin_dia_anterior
     end_date += timedelta(days=1)
     # Definir el formato de las fechas de inicio y fin
-    start_date_str = start_date.strftime('%Y-%m-%d %H:%M:%S.000')
-    end_date_str = end_date.strftime('%Y-%m-%d %H:%M:%S.000')
+    start_date_str = get_date(start_date)
+    end_date_str = get_date(end_date)
     # Construir el filtro de consulta
     query_filter = {"startTimestamp": start_date_str, "endTimestamp": end_date_str}
     query_filter_encoded = urllib.parse.quote(str(query_filter))

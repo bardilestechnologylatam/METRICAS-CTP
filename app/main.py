@@ -1,22 +1,18 @@
 import os
 import sys
 
-##############################
 from datetime import datetime, timedelta
-##############################
 
 from controller.mongo_manager import MongoDBManager
 from controller.HTTPRequest import HTTPRequest
 from controller.Hits import  get_virtualization, get_hits_peer_dates
-##############################
-
+from pymongo.errors import PyMongoError
 from flask import Flask, jsonify, request, make_response
 from flask_wtf import CSRFProtect 
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
 
-##############################
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -71,7 +67,6 @@ def save_last_hits():
     yesterday_2 = today - timedelta(days=1)
     fecha_formateada = yesterday_2.strftime("%Y-%m-%d")
     
-    #data_json = requester.get(endpoint=get_hits_peer_dates(fecha_formateada, fecha_formateada))
     virt_data_hits = get_hit_virts(fecha_formateada, fecha_formateada)
     # # Convertir la fecha resultante a formato ISODate
     date_iso = yesterday_2.isoformat()
@@ -87,15 +82,13 @@ def save_last_hits():
     return True
 
 
-#####################################################################################################
-
 @app.route('/save', methods=['GET'])
 def save_last_hits_api():
     start_time = request.args.get('startTime')
     end_time = request.args.get('endTime')
     if start_time is None or end_time is None:
         datos_param = {
-            "error": "Parametros no valido"
+            "error": "Parámetros no válidos"
         }
         response = jsonify(datos_param)
         response.status_code = 404
@@ -105,8 +98,10 @@ def save_last_hits_api():
         try:
             manager = MongoDBManager()
             manager.insertar_documento(get_hit_virts(start_time, end_time))
-        except BaseException as bs:
-            return {"Error": str(bs)}
+        except PyMongoError as e:
+            return {"Error de MongoDB": str(e)}
+        except Exception as e:
+            return {"Error": str(e)}
 
 
 

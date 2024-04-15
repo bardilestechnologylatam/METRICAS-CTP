@@ -13,7 +13,7 @@ class MongoDBManager:
         self.port = port or MongoDBManager.mongodb_port
         self.username = username or MongoDBManager.mongodb_user
         self.password = password or MongoDBManager.mongodb_pass
-        self.client = MongoClient(self.host, self.port, username=self.username, password=self.password, auth_source=auth_source)
+        self.client = MongoClient(self.host, self.port, username=self.username, password=self.password, authSource=auth_source)
         self.db = self.client[database]
         self.db_name = database
         self.coleccion = self.db[coleccion]
