@@ -8,7 +8,7 @@ class HTTPRequest:
         url = f"{self.base_url}/{endpoint}"
         response = requests.get(url, params=params)
         response.raise_for_status()  # Lanza una excepción si hay un error en la solicitud
-        return response.text
+        return response.text, url
 
     def post(self, endpoint, data):
         url = f"{self.base_url}/{endpoint}"

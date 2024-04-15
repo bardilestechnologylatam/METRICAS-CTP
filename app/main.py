@@ -130,7 +130,6 @@ def obtener_datos():
         
 if __name__ == "__main__":
     if CRONJOB_CONDITION == "true":
-        print("JOB Obtener hits dia anterior")
         save_last_hits()
     else:
         print("Servidor puerto 5000")

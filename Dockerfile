@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:latest
 
 # Define el argumento de compilación para las variables de entorno
 ARG BASE_URL_CTP

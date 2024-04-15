@@ -63,7 +63,6 @@ def get_json_data(data):
 
 def process_folder(folder, tribu):
     result = []
-
     if folder.get("virtualAssets"):
         result.extend(process_virtual_assets(folder["virtualAssets"], tribu, "Na", "Na"))
 
@@ -106,35 +105,3 @@ def process_virtual_assets(virtual_assets, tribu, clan_name, celula_name):
 
 class InvalidDataException(Exception):
     pass
-
-
-
-# def get_virtualization(data):
-#     json_data = data[0]
-#     data=[]
-#     folder_ommit = ["traffic_templates", "recorded_traffic", ".settings"]
-#     for folder in json_data["virtualAssetsProject"]["folders"]:
-#         if folder["name"] not in folder_ommit:
-#             tribu = folder["name"]
-#             if folder["virtualAssets"]!= None:
-#                 for virt in folder["virtualAssets"]:
-#                     virt_id = virt["id"]
-#                     virt_name = virt["name"]
-#                     data.append({"virt_name":virt_name, "virt_id":virt_id, "tribu": tribu, "clan": "Na", "celula": "Na"})
-#             if folder["folders"] != None:
-#                 for clanes in folder["folders"]:
-#                     clan_name = clanes["name"]
-#                     #print(clanes, type(clanes))
-#                     if clanes["folders"]!= None:
-#                         #print(clan_name, "tiene celulas")
-#                         for celulas in clanes["folders"]:
-#                             celula_name = celulas["name"]
-#                             if celulas["virtualAssets"]!= None:
-#                                #print(celula_name, " Tiene virtualizaciones")
-#                                 for virt in celulas["virtualAssets"]:
-#                                     virt_id = virt["id"]
-#                                     virt_name = virt["name"]
-#                                     data.append({"virt_name":virt_name, "virt_id":virt_id, "tribu":tribu, "clan": clan_name, "celula": celula_name})
-
-
-#     return data
